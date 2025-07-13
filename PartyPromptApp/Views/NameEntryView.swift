@@ -12,6 +12,7 @@ struct NameEntryView: View {
         VStack(spacing: 20) {
             Text("Enter Your Name")
                 .font(.title)
+
             TextField("Name", text: $name)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
@@ -32,7 +33,14 @@ struct NameEntryView: View {
     }
 
     func joinOrCreateSession() {
-        DummySession.shared.joinOrCreateSession(sessionCode: sessionCode, userID: userID, userName: name, isCreating: isCreating)
-        navigateToLobby = true
+        FirebaseSessionService.shared.createOrJoinSession(
+            sessionCode: sessionCode,
+            userID: userID,
+            userName: name,
+            isCreating: isCreating
+        ) {
+            navigateToLobby = true
+        }
     }
 }
+

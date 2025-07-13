@@ -1,23 +1,33 @@
 import SwiftUI
+import Firebase
 
 struct PromptView: View {
     let sessionCode: String
     let userID: String
+
     @State private var prompt: String = ""
     @State private var response: String = ""
     @State private var submitted = false
     @State private var isHost = false
     @State private var responses: [String] = []
-    @State private var currentIndex = 0
+    @State private var currentIndex: Int = 0
+
+    // Firebase listeners
+    @State private var promptListener: ListenerRegistration?
+    @State private var responsesListener: ListenerRegistration?
+    @State private var indexListener: ListenerRegistration?
 
     var body: some View {
         VStack(spacing: 20) {
-            Text(prompt).font(.title).multilineTextAlignment(.center)
+            Text(prompt)
+                .font(.title)
+                .multilineTextAlignment(.center)
 
             if !submitted && !isHost {
                 TextField("Your response...", text: $response)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal)
+
                 Button("Submit") {
                     submitResponse()
                 }
@@ -54,31 +64,44 @@ struct PromptView: View {
         }
         .padding()
         .onAppear {
-            fetchPrompt()
-            fetchRole()
-            loadResponses()
+            setupFirebaseListeners()
+        }
+        .onDisappear {
+            promptListener?.remove()
+            responsesListener?.remove()
+            indexListener?.remove()
         }
     }
 
-    func fetchPrompt() {
-        prompt = DummySession.shared.getPrompt(sessionCode: sessionCode)
-    }
+    func setupFirebaseListeners() {
+        // Live prompt updates
+        promptListener = FirebaseSessionService.shared.observePrompt(sessionCode: sessionCode) { updatedPrompt in
+            self.prompt = updatedPrompt
+        }
 
-    func fetchRole() {
-        isHost = DummySession.shared.isHost(sessionCode: sessionCode, userID: userID)
+        // Check if user is host
+        FirebaseSessionService.shared.isHost(sessionCode: sessionCode, userID: userID) { result in
+            self.isHost = result
+        }
+
+        // Live responses
+        responsesListener = FirebaseSessionService.shared.observeResponses(sessionCode: sessionCode) { newResponses in
+            self.responses = newResponses
+        }
+
+        // Live currentIndex sync
+        indexListener = FirebaseSessionService.shared.observeCurrentIndex(sessionCode: sessionCode) { newIndex in
+            self.currentIndex = newIndex
+        }
     }
 
     func submitResponse() {
-        DummySession.shared.submitResponse(sessionCode: sessionCode, text: response)
+        FirebaseSessionService.shared.submitResponse(sessionCode: sessionCode, text: response)
         submitted = true
-        loadResponses()
-    }
-
-    func loadResponses() {
-        responses = DummySession.shared.getResponses(sessionCode: sessionCode)
     }
 
     func syncCurrentIndex() {
-        // Optional if you want to sync current index to DummySession
+        FirebaseSessionService.shared.setCurrentIndex(sessionCode: sessionCode, index: currentIndex)
     }
 }
+
