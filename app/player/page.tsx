@@ -1,33 +1,35 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useGameState } from '@/hooks/useGameState';
+import { useGameStore } from '@/lib/gameStore';
 import { JoinRoom } from '@/components/player/JoinRoom';
 import { AnswerSubmit } from '@/components/player/AnswerSubmit';
 import { GuessPanel } from '@/components/player/GuessPanel';
 import Link from 'next/link';
 
 export default function PlayerPage() {
-  const [playerId, setPlayerId] = useState<string | null>(() => {
-    if (typeof window === 'undefined') return null;
-    return sessionStorage.getItem('chit-player-id');
-  });
+  const roomCode = useGameStore((s) => s.roomCode);
+  const [playerId, setPlayerId] = useState<string | null>(null);
   const { game } = useGameState();
 
   useEffect(() => {
-    if (playerId) sessionStorage.setItem('chit-player-id', playerId);
-  }, [playerId]);
+    if (!roomCode) return;
+    const stored = localStorage.getItem(`chit-player-${roomCode}`);
+    if (stored) setPlayerId(stored);
+  }, [roomCode]);
 
-  useEffect(() => {
-    if (!game) sessionStorage.removeItem('chit-player-id');
-  }, [game]);
+  const handleJoined = (id: string) => {
+    if (roomCode) localStorage.setItem(`chit-player-${roomCode}`, id);
+    setPlayerId(id);
+  };
 
-  if (!game) {
-    return (
-      <main className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500">No active game. <Link href="/" className="text-emerald-700 underline">Create one</Link></p>
-      </main>
-    );
-  }
+  if (!game) return (
+    <main className="min-h-screen flex items-center justify-center p-4">
+      <div className="w-full">
+        <JoinRoom onJoined={handleJoined} />
+      </div>
+    </main>
+  );
 
   return (
     <main className="min-h-screen flex items-center justify-center p-4">
@@ -37,11 +39,13 @@ export default function PlayerPage() {
             Game already started — ask the host to end it and start a new one.
           </div>
         )}
-        {!playerId && game.phase !== 'playing' && <JoinRoom onJoined={setPlayerId} />}
+        {!playerId && game.phase !== 'playing' && <JoinRoom onJoined={handleJoined} />}
         {playerId && game.phase === 'lobby' && <AnswerSubmit playerId={playerId} />}
         {playerId && game.phase === 'playing' && <GuessPanel playerId={playerId} />}
         {playerId && game.phase === 'ended' && (
-          <p className="text-center text-gray-500 text-sm">Game ended! <Link href="/" className="text-indigo-600 underline">Play again</Link></p>
+          <p className="text-center text-gray-500 text-sm">
+            Game ended! <Link href="/" className="text-emerald-700 underline">Play again</Link>
+          </p>
         )}
       </div>
     </main>

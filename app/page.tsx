@@ -7,12 +7,15 @@ import Link from 'next/link';
 
 export default function Home() {
   const [prompt, setPrompt] = useState('');
+  const [loading, setLoading] = useState(false);
   const createGame = useGameStore((s) => s.createGame);
   const game = useGameStore((s) => s.game);
 
-  const handle = () => {
+  const handle = async () => {
     if (!prompt.trim()) return;
-    createGame(prompt.trim());
+    setLoading(true);
+    await createGame(prompt.trim());
+    setLoading(false);
   };
 
   return (
@@ -33,7 +36,9 @@ export default function Home() {
               onKeyDown={(e) => e.key === 'Enter' && handle()}
               className="glass-input mb-3"
             />
-            <Button onClick={handle} disabled={!prompt.trim()} className="w-full">Create Game</Button>
+            <Button onClick={handle} disabled={!prompt.trim() || loading} className="w-full">
+              {loading ? 'Creating...' : 'Create Game'}
+            </Button>
           </Card>
         ) : (
           <div className="space-y-3">
