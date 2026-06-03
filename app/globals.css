@@ -45,6 +45,7 @@
 body {
   color: var(--foreground);
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   background:
     radial-gradient(ellipse 80% 55% at 8% 0%, rgba(255, 214, 10, 0.18) 0%, transparent 55%),
     radial-gradient(ellipse 65% 50% at 92% 100%, rgba(48, 209, 88, 0.14) 0%, transparent 55%),
