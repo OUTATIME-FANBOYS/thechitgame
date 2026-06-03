@@ -2,15 +2,15 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { GameState } from './types';
 import { createInitialState, addPlayer, submitAnswer, startGame, makeGuess, passTurn } from './gameEngine';
-import { supabase } from './supabase';
+import { getSupabase } from './supabase';
 
 async function fetchState(roomCode: string): Promise<GameState | null> {
-  const { data } = await supabase.from('games').select('state').eq('room_code', roomCode).single();
+  const { data } = await getSupabase().from('games').select('state').eq('room_code', roomCode).single();
   return data?.state ?? null;
 }
 
 async function writeState(roomCode: string, state: GameState): Promise<void> {
-  await supabase.from('games').upsert({ room_code: roomCode, state });
+  await getSupabase().from('games').upsert({ room_code: roomCode, state });
 }
 
 interface GameStore {
@@ -94,7 +94,7 @@ export const useGameStore = create<GameStore>()(
 
       resetGame: async () => {
         const { roomCode } = get();
-        if (roomCode) await supabase.from('games').delete().eq('room_code', roomCode);
+        if (roomCode) await getSupabase().from('games').delete().eq('room_code', roomCode);
         set({ game: null, roomCode: null });
       },
 

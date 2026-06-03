@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useGameStore } from '@/lib/gameStore';
 import { getActiveChits, getTeamMembers } from '@/lib/gameEngine';
-import { supabase } from '@/lib/supabase';
+import { getSupabase } from '@/lib/supabase';
 import { GameState } from '@/lib/types';
 
 export function useGameState() {
@@ -13,14 +13,15 @@ export function useGameState() {
   useEffect(() => {
     if (!roomCode) return;
 
-    supabase
-      .from('games')
+    const sb = getSupabase();
+
+    sb.from('games')
       .select('state')
       .eq('room_code', roomCode)
       .single()
       .then(({ data }) => { if (data) setGame(data.state as GameState); });
 
-    const channel = supabase
+    const channel = sb
       .channel(`game-${roomCode}`)
       .on(
         'postgres_changes',
@@ -35,7 +36,7 @@ export function useGameState() {
       )
       .subscribe();
 
-    return () => { supabase.removeChannel(channel); };
+    return () => { sb.removeChannel(channel); };
   }, [roomCode, setGame]);
 
   if (!game) return { game: null };
