@@ -4,8 +4,8 @@ import { useGameStore } from '@/lib/gameStore';
 import { Button } from '@/components/shared/Button';
 import { Card } from '@/components/shared/Card';
 
-export function JoinRoom({ onJoined }: { onJoined: (id: string) => void }) {
-  const [roomCode, setRoomCode] = useState('');
+export function JoinRoom({ onJoined, initialCode = '' }: { onJoined: (id: string) => void; initialCode?: string }) {
+  const [roomCode, setRoomCode] = useState(initialCode);
   const [name, setName] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
