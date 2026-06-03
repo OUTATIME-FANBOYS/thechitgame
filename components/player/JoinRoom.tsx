@@ -5,17 +5,40 @@ import { Button } from '@/components/shared/Button';
 import { Card } from '@/components/shared/Card';
 
 export function JoinRoom({ onJoined }: { onJoined: (id: string) => void }) {
+  const [roomCode, setRoomCode] = useState('');
   const [name, setName] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const joinRoom = useGameStore((s) => s.joinRoom);
   const joinGame = useGameStore((s) => s.joinGame);
 
-  const handle = () => {
-    if (!name.trim()) return;
-    onJoined(joinGame(name.trim()));
+  const handle = async () => {
+    if (!roomCode.trim() || !name.trim()) return;
+    setLoading(true);
+    setError('');
+    const found = await joinRoom(roomCode.trim());
+    if (!found) {
+      setError('Room not found. Check the code and try again.');
+      setLoading(false);
+      return;
+    }
+    const id = await joinGame(name.trim());
+    setLoading(false);
+    onJoined(id);
   };
 
   return (
     <Card className="max-w-sm mx-auto">
       <p className="text-lg font-semibold text-gray-800 mb-4">Join Game</p>
+      <input
+        type="text"
+        placeholder="Room code (e.g. AB12)"
+        value={roomCode}
+        onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
+        onKeyDown={(e) => e.key === 'Enter' && handle()}
+        className="glass-input mb-3"
+        maxLength={4}
+      />
       <input
         type="text"
         placeholder="Your name"
@@ -24,7 +47,10 @@ export function JoinRoom({ onJoined }: { onJoined: (id: string) => void }) {
         onKeyDown={(e) => e.key === 'Enter' && handle()}
         className="glass-input mb-3"
       />
-      <Button onClick={handle} disabled={!name.trim()} className="w-full">Join</Button>
+      {error && <p className="text-red-600 text-xs mb-3">{error}</p>}
+      <Button onClick={handle} disabled={!roomCode.trim() || !name.trim() || loading} className="w-full">
+        {loading ? 'Joining...' : 'Join'}
+      </Button>
     </Card>
   );
 }
