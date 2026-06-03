@@ -1,5 +1,6 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useGameState } from '@/hooks/useGameState';
 import { useGameStore } from '@/lib/gameStore';
 import { JoinRoom } from '@/components/player/JoinRoom';
@@ -7,10 +8,12 @@ import { AnswerSubmit } from '@/components/player/AnswerSubmit';
 import { GuessPanel } from '@/components/player/GuessPanel';
 import Link from 'next/link';
 
-export default function PlayerPage() {
+function PlayerContent() {
   const roomCode = useGameStore((s) => s.roomCode);
   const [playerId, setPlayerId] = useState<string | null>(null);
   const { game } = useGameState();
+  const searchParams = useSearchParams();
+  const codeFromUrl = searchParams.get('code')?.toUpperCase() ?? '';
 
   useEffect(() => {
     if (!roomCode) return;
@@ -26,7 +29,7 @@ export default function PlayerPage() {
   if (!game) return (
     <main className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full">
-        <JoinRoom onJoined={handleJoined} />
+        <JoinRoom onJoined={handleJoined} initialCode={codeFromUrl} />
       </div>
     </main>
   );
@@ -39,7 +42,7 @@ export default function PlayerPage() {
             Game already started — ask the host to end it and start a new one.
           </div>
         )}
-        {!playerId && game.phase !== 'playing' && <JoinRoom onJoined={handleJoined} />}
+        {!playerId && game.phase !== 'playing' && <JoinRoom onJoined={handleJoined} initialCode={codeFromUrl} />}
         {playerId && game.phase === 'lobby' && <AnswerSubmit playerId={playerId} />}
         {playerId && game.phase === 'playing' && <GuessPanel playerId={playerId} />}
         {playerId && game.phase === 'ended' && (
@@ -49,5 +52,13 @@ export default function PlayerPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function PlayerPage() {
+  return (
+    <Suspense>
+      <PlayerContent />
+    </Suspense>
   );
 }
