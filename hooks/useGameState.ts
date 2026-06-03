@@ -14,6 +14,12 @@ export function useGameState() {
     if (!roomCode) return;
 
     const sb = getSupabase();
+    const channelName = `game-${roomCode}`;
+
+    // Remove any stale channel from a previous render before subscribing
+    sb.getChannels().forEach((ch) => {
+      if (ch.topic === `realtime:${channelName}`) sb.removeChannel(ch);
+    });
 
     sb.from('games')
       .select('state')
@@ -22,7 +28,7 @@ export function useGameState() {
       .then(({ data }) => { if (data) setGame(data.state as GameState); });
 
     const channel = sb
-      .channel(`game-${roomCode}`)
+      .channel(channelName)
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'games', filter: `room_code=eq.${roomCode}` },
@@ -37,7 +43,9 @@ export function useGameState() {
       .subscribe();
 
     return () => { sb.removeChannel(channel); };
-  }, [roomCode, setGame]);
+  // setGame is a stable Zustand ref — excluding it prevents unnecessary re-subscriptions
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomCode]);
 
   if (!game) return { game: null };
 
