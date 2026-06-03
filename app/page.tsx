@@ -46,8 +46,8 @@ export default function Home() {
               <p className="text-xs text-gray-500 mb-1">Game created!</p>
               <p className="text-2xl font-bold text-indigo-600 tracking-widest">{game.roomCode}</p>
             </Card>
-            <Link href="/host"><Button className="w-full py-3">Open Host Screen</Button></Link>
-            <Link href="/player"><Button variant="secondary" className="w-full py-3">Open Player Screen</Button></Link>
+            <Link href="/host" className="block w-full"><Button className="w-full py-4">Open Host Screen</Button></Link>
+            <Link href="/player" className="block w-full"><Button variant="secondary" className="w-full py-4">Open Player Screen</Button></Link>
           </div>
         )}
       </div>
