@@ -17,8 +17,11 @@ export default function PlayerPage() {
     if (playerId) sessionStorage.setItem('chit-player-id', playerId);
   }, [playerId]);
 
+  useEffect(() => {
+    if (!game) sessionStorage.removeItem('chit-player-id');
+  }, [game]);
+
   if (!game) {
-    sessionStorage.removeItem('chit-player-id');
     return (
       <main className="min-h-screen flex items-center justify-center">
         <p className="text-gray-500">No active game. <Link href="/" className="text-emerald-700 underline">Create one</Link></p>
