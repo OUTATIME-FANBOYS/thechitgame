@@ -8,9 +8,9 @@ export function ChitDisplay() {
 
   return (
     <div className="space-y-4">
-      <Card className="text-center py-8">
+      <Card className="text-center py-6 sm:py-8">
         <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">Current Chit</p>
-        <p className="text-3xl font-bold text-gray-900">{currentChit?.answer ?? '—'}</p>
+        <p className="text-2xl sm:text-3xl font-bold text-gray-900">{currentChit?.answer ?? '—'}</p>
       </Card>
       <Card>
         <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">Active Team</p>

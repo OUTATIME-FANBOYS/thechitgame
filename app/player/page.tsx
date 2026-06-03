@@ -28,7 +28,7 @@ function PlayerContent() {
 
   if (!game) return (
     <main className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full">
+      <div className="w-full max-w-md">
         <JoinRoom onJoined={handleJoined} initialCode={codeFromUrl} />
       </div>
     </main>
@@ -36,7 +36,7 @@ function PlayerContent() {
 
   return (
     <main className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full">
+      <div className="w-full max-w-md">
         {!playerId && game.phase === 'playing' && (
           <div className="max-w-sm mx-auto text-center text-gray-500 text-sm p-6">
             Game already started — ask the host to end it and start a new one.

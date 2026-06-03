@@ -31,7 +31,7 @@ export function Lobby() {
           <div className="p-3 bg-white rounded-2xl shadow-sm">
             <QRCodeSVG
               value={joinUrl}
-              size={180}
+              size={160}
               fgColor="#1a1a1a"
               bgColor="#ffffff"
               level="M"
@@ -40,8 +40,8 @@ export function Lobby() {
         )}
         <div className="text-center">
           <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Room Code</p>
-          <p className="text-5xl font-bold tracking-[0.2em] text-indigo-600">{game.roomCode}</p>
-          <p className="text-xs text-gray-400 mt-2">Scan or go to <span className="font-medium text-gray-600">{typeof window !== 'undefined' ? window.location.hostname : ''}/player</span></p>
+          <p className="text-4xl sm:text-5xl font-bold tracking-[0.15em] sm:tracking-[0.2em] text-indigo-600">{game.roomCode}</p>
+          <p className="text-xs text-gray-400 mt-2">Scan or visit <span className="font-medium text-gray-600 break-all">{typeof window !== 'undefined' ? `${window.location.hostname}/player` : ''}</span></p>
         </div>
       </Card>
 
