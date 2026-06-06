@@ -89,3 +89,14 @@ html.dark .glass-input:focus {
   border-color: rgba(48, 209, 88, 0.45);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(48, 209, 88, 0.15);
 }
+
+@keyframes chit-player-pulse {
+  0%, 100% {
+    background-color: transparent;
+    border-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 214, 10, 0.12);
+    border-color: rgba(255, 214, 10, 0.35);
+  }
+}
