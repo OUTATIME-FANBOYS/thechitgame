@@ -26,13 +26,13 @@ export function GuessPanel({ playerId }: { playerId: string }) {
   return (
     <div className="space-y-4 max-w-sm mx-auto">
       <Card className="text-center">
-        <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Current Chit</p>
-        <p className="text-2xl font-bold text-gray-900">{currentChit?.answer ?? '—'}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Current Chit</p>
+        <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{currentChit?.answer ?? '—'}</p>
       </Card>
 
       {isMyTeamsTurn ? (
         <Card>
-          <p className="text-sm font-medium text-gray-700 mb-3">Who wrote this?</p>
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Who wrote this?</p>
           <div className="space-y-2 mb-4">
             {guessablePlayers.map((p) => {
               const team = getTeamForPlayer(game, p.id);
@@ -50,12 +50,12 @@ export function GuessPanel({ playerId }: { playerId: string }) {
                     'active:scale-[0.98] touch-manipulation',
                     isSelected
                       ? 'border-[#30D158]/55 bg-[#30D158]/15 shadow-[0_2px_12px_rgba(48,209,88,0.2)]'
-                      : 'border-white/50 bg-white/60 hover:border-[#30D158]/40 hover:bg-white/75'
+                      : 'border-white/50 bg-white/60 dark:border-white/10 dark:bg-white/5 hover:border-[#30D158]/40 hover:bg-white/75'
                   )}
                 >
-                  <p className="text-sm font-medium text-gray-800">{p.name}</p>
+                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{p.name}</p>
                   {teammates.length > 0 && (
-                    <p className="text-xs text-gray-400 mt-0.5">
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
                       +{teammates.map((t) => t.name).join(', ')}
                     </p>
                   )}
@@ -66,8 +66,8 @@ export function GuessPanel({ playerId }: { playerId: string }) {
           <Button onClick={handle} disabled={!selected} className="w-full">Guess</Button>
         </Card>
       ) : (
-        <Card className="text-center text-sm text-gray-500">
-          It&apos;s <span className="font-medium text-gray-700">
+        <Card className="text-center text-sm text-gray-500 dark:text-gray-400">
+          It&apos;s <span className="font-medium text-gray-700 dark:text-gray-300">
             {game.players[activeTeam.leaderId]?.name}&apos;s team
           </span>&apos;s turn to guess
         </Card>

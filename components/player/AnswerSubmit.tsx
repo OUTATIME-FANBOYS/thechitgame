@@ -20,16 +20,16 @@ export function AnswerSubmit({ playerId }: { playerId: string }) {
   if (submitted) {
     return (
       <Card className="max-w-sm mx-auto text-center">
-        <p className="text-green-600 font-medium">✓ Answer submitted!</p>
-        <p className="text-sm text-gray-500 mt-1">Waiting for the game to start...</p>
+        <p className="text-green-600 dark:text-green-400 font-medium">✓ Answer submitted!</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Waiting for the game to start...</p>
       </Card>
     );
   }
 
   return (
     <Card className="max-w-sm mx-auto">
-      <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Prompt</p>
-      <p className="text-base font-medium text-gray-800 mb-4">{game?.prompt}</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Prompt</p>
+      <p className="text-base font-medium text-gray-800 dark:text-gray-200 mb-4">{game?.prompt}</p>
       <input
         type="text"
         placeholder="Your answer"

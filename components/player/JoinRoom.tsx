@@ -29,7 +29,7 @@ export function JoinRoom({ onJoined, initialCode = '' }: { onJoined: (id: string
 
   return (
     <Card className="max-w-sm mx-auto">
-      <p className="text-lg font-semibold text-gray-800 mb-4">Join Game</p>
+      <p className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Join Game</p>
       <input
         type="text"
         placeholder="Room code (e.g. AB12)"
@@ -47,7 +47,7 @@ export function JoinRoom({ onJoined, initialCode = '' }: { onJoined: (id: string
         onKeyDown={(e) => e.key === 'Enter' && handle()}
         className="glass-input mb-3"
       />
-      {error && <p className="text-red-600 text-xs mb-3">{error}</p>}
+      {error && <p className="text-red-600 dark:text-red-400 text-xs mb-3">{error}</p>}
       <Button onClick={handle} disabled={!roomCode.trim() || !name.trim() || loading} className="w-full">
         {loading ? 'Joining...' : 'Join'}
       </Button>

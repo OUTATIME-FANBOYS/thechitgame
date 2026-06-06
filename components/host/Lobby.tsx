@@ -39,34 +39,34 @@ export function Lobby() {
           </div>
         )}
         <div className="text-center">
-          <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Room Code</p>
-          <p className="text-4xl sm:text-5xl font-bold tracking-[0.15em] sm:tracking-[0.2em] text-indigo-600">{game.roomCode}</p>
-          <p className="text-xs text-gray-400 mt-2">Scan or visit <span className="font-medium text-gray-600 break-all">{typeof window !== 'undefined' ? `${window.location.hostname}/player` : ''}</span></p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1">Room Code</p>
+          <p className="text-4xl sm:text-5xl font-bold tracking-[0.15em] sm:tracking-[0.2em] text-indigo-600 dark:text-indigo-400">{game.roomCode}</p>
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">Scan or visit <span className="font-medium text-gray-600 dark:text-gray-400 break-all">{typeof window !== 'undefined' ? `${window.location.hostname}/player` : ''}</span></p>
         </div>
       </Card>
 
       {/* Prompt */}
       <Card>
-        <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Prompt</p>
-        <p className="text-lg font-medium text-gray-800">{game.prompt}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Prompt</p>
+        <p className="text-lg font-medium text-gray-800 dark:text-gray-200">{game.prompt}</p>
       </Card>
 
       {/* Player list */}
       <Card>
-        <p className="text-xs text-gray-500 uppercase tracking-wide mb-3">
+        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">
           Players ({players.length})
         </p>
         <div className="space-y-2">
           {players.map((p) => (
             <div key={p.id} className="flex items-center justify-between py-1">
-              <span className="text-sm font-medium text-gray-800">{p.name}</span>
-              <span className={`text-xs font-medium ${p.answer ? 'text-emerald-600' : 'text-gray-400'}`}>
+              <span className="text-sm font-medium text-gray-800 dark:text-gray-200">{p.name}</span>
+              <span className={`text-xs font-medium ${p.answer ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-400 dark:text-gray-500'}`}>
                 {p.answer ? '✓ Ready' : 'Thinking…'}
               </span>
             </div>
           ))}
           {players.length === 0 && (
-            <p className="text-sm text-gray-400 text-center py-2">Waiting for players to join…</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-2">Waiting for players to join…</p>
           )}
         </div>
       </Card>

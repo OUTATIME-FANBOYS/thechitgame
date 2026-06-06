@@ -38,7 +38,7 @@ function PlayerContent() {
     <main className="min-h-dvh flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {!playerId && game.phase === 'playing' && (
-          <div className="max-w-sm mx-auto text-center text-gray-500 text-sm p-6">
+          <div className="max-w-sm mx-auto text-center text-gray-500 dark:text-gray-400 text-sm p-6">
             Game already started — ask the host to end it and start a new one.
           </div>
         )}
@@ -46,8 +46,8 @@ function PlayerContent() {
         {playerId && game.phase === 'lobby' && <AnswerSubmit playerId={playerId} />}
         {playerId && game.phase === 'playing' && <GuessPanel playerId={playerId} />}
         {playerId && game.phase === 'ended' && (
-          <p className="text-center text-gray-500 text-sm">
-            Game ended! <Link href="/" className="text-emerald-700 underline">Play again</Link>
+          <p className="text-center text-gray-500 dark:text-gray-400 text-sm">
+            Game ended! <Link href="/" className="text-emerald-700 dark:text-emerald-400 underline">Play again</Link>
           </p>
         )}
       </div>
