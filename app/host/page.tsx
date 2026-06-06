@@ -20,7 +20,7 @@ export default function HostPage() {
   const [selected, setSelected] = useState<string | null>(null);
 
   if (!game) return (
-    <main className="min-h-screen flex items-center justify-center px-4">
+    <main className="min-h-dvh flex items-center justify-center px-4">
       <p className="text-gray-500">No active game. <Link href="/" className="text-emerald-700 underline">Create one</Link></p>
     </main>
   );
@@ -32,7 +32,7 @@ export default function HostPage() {
   };
 
   return (
-    <main className="min-h-screen px-4 py-5 sm:p-6">
+    <main className="min-h-dvh px-4 py-5 sm:p-6">
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-bold text-gray-900">Host Screen</h1>
