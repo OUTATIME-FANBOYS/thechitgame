@@ -83,13 +83,13 @@ export default function Home() {
         {!game ? (
           <Card className={shook ? 'ring-2 ring-yellow-400/60' : ''}>
             <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Create a new game</p>
-            <input
-              type="text"
+            <textarea
               placeholder="Enter a prompt (e.g. What's the last thing you do before sleeping?)"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handle()}
-              className="glass-input mb-3"
+              onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handle()}
+              rows={3}
+              className="glass-input mb-3 resize-none"
             />
             <Button variant="yellow" onClick={handleRandomClick} className="w-full mb-2">
               🎲 Shock me with a random prompt
