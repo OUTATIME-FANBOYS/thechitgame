@@ -19,16 +19,17 @@ export function Button({ variant = 'primary', className, children, ...props }: B
         variant === 'primary' && [
           'bg-[#30D158]/20 backdrop-blur-xl',
           'border border-[#30D158]/50',
-          'text-emerald-800',
+          'text-emerald-800 dark:text-emerald-300',
           'shadow-[0_4px_20px_rgba(48,209,88,0.2)]',
           'hover:bg-[#30D158]/30 hover:shadow-[0_6px_28px_rgba(48,209,88,0.3)]',
+          'dark:bg-[#30D158]/15 dark:border-[#30D158]/35',
           'focus-visible:ring-[#30D158]',
         ],
 
         variant === 'yellow' && [
           'bg-[#FFD60A]/20 backdrop-blur-xl',
           'border border-[#FFD60A]/55',
-          'text-yellow-800',
+          'text-yellow-800 dark:text-yellow-300',
           'shadow-[0_4px_20px_rgba(255,214,10,0.2)]',
           'hover:bg-[#FFD60A]/30 hover:shadow-[0_6px_28px_rgba(255,214,10,0.3)]',
           'focus-visible:ring-[#FFD60A]',
@@ -37,7 +38,7 @@ export function Button({ variant = 'primary', className, children, ...props }: B
         variant === 'red' && [
           'bg-[#FF453A]/15 backdrop-blur-xl',
           'border border-[#FF453A]/40',
-          'text-red-800',
+          'text-red-800 dark:text-red-300',
           'shadow-[0_4px_20px_rgba(255,69,58,0.15)]',
           'hover:bg-[#FF453A]/25 hover:shadow-[0_6px_28px_rgba(255,69,58,0.25)]',
           'focus-visible:ring-[#FF453A]',
@@ -46,15 +47,17 @@ export function Button({ variant = 'primary', className, children, ...props }: B
         variant === 'secondary' && [
           'bg-white/60 backdrop-blur-xl',
           'border border-white/55',
-          'text-gray-700',
+          'text-gray-700 dark:text-gray-200',
           'shadow-[0_4px_16px_rgba(0,0,0,0.08)]',
           'hover:bg-white/78 hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)]',
+          'dark:bg-white/5 dark:border-white/10 dark:hover:bg-white/10',
           'focus-visible:ring-gray-400',
         ],
 
         variant === 'ghost' && [
-          'text-gray-500',
+          'text-gray-500 dark:text-gray-400',
           'hover:bg-white/50 hover:backdrop-blur-xl hover:border hover:border-white/40 hover:text-gray-700',
+          'dark:hover:bg-white/8 dark:hover:text-gray-200 dark:hover:border-white/10',
           'focus-visible:ring-gray-300',
         ],
 

@@ -17,24 +17,24 @@ export function RevealBoard() {
     <div className="space-y-6">
       <div className="text-center space-y-2">
         <div className="text-5xl">🎉</div>
-        <h2 className="text-2xl font-bold text-gray-900">Game Over!</h2>
-        <p className="text-gray-600">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Game Over!</h2>
+        <p className="text-gray-600 dark:text-gray-400">
           Winners:{' '}
-          <span className="font-semibold text-indigo-600">
+          <span className="font-semibold text-indigo-600 dark:text-indigo-400">
             {winners.map((p) => p.name).join(', ')}
           </span>
         </p>
       </div>
 
       <div>
-        <p className="text-xs text-gray-500 uppercase tracking-wide mb-3">All Answers Revealed</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">All Answers Revealed</p>
         <div className="grid gap-3 sm:grid-cols-2">
           {chits.map((chit) => {
             const author = game.players[chit.playerId];
             return (
               <Card key={chit.id} className="flex flex-col gap-1">
-                <p className="text-base font-medium text-gray-900">{chit.answer}</p>
-                <p className="text-xs text-indigo-600 font-medium">— {author?.name ?? 'Unknown'}</p>
+                <p className="text-base font-medium text-gray-900 dark:text-gray-100">{chit.answer}</p>
+                <p className="text-xs text-indigo-600 dark:text-indigo-400 font-medium">— {author?.name ?? 'Unknown'}</p>
               </Card>
             );
           })}

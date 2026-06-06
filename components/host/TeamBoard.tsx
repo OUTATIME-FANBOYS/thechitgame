@@ -9,16 +9,16 @@ export function TeamBoard() {
 
   return (
     <div className="space-y-3">
-      <p className="text-xs text-gray-500 uppercase tracking-wide">Teams</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Teams</p>
       {Object.values(game.teams).map((team) => {
         const members = getTeamMembers(game, team.id);
         const isActive = game.turn?.activeTeamId === team.id;
         return (
           <Card key={team.id} className={isActive ? 'border-[#30D158]/55 bg-[#30D158]/10' : ''}>
             <div className="flex items-center gap-2 flex-wrap">
-              {isActive && <span className="text-xs text-emerald-700 font-bold tracking-wide">▶ ACTIVE</span>}
+              {isActive && <span className="text-xs text-emerald-700 dark:text-emerald-400 font-bold tracking-wide">▶ ACTIVE</span>}
               {members.map((p) => (
-                <span key={p.id} className="text-sm font-medium text-gray-800">
+                <span key={p.id} className="text-sm font-medium text-gray-800 dark:text-gray-200">
                   {p.name}{p.id === team.leaderId ? ' ★' : ''}
                 </span>
               ))}

@@ -18,8 +18,8 @@ export function PlayerBadge({ player, onClick, selected, className }: PlayerBadg
         'backdrop-blur-xl border transition-all duration-150',
         'min-h-9 touch-manipulation select-none',
         selected
-          ? 'bg-[#30D158]/25 border-[#30D158]/55 text-emerald-800 shadow-[0_2px_12px_rgba(48,209,88,0.25)] scale-[1.04]'
-          : 'bg-white/60 border-white/50 text-gray-700 shadow-sm',
+          ? 'bg-[#30D158]/25 border-[#30D158]/55 text-emerald-800 dark:text-emerald-300 shadow-[0_2px_12px_rgba(48,209,88,0.25)] scale-[1.04]'
+          : 'bg-white/60 border-white/50 text-gray-700 dark:text-gray-300 dark:bg-white/5 dark:border-white/10 shadow-sm',
         onClick && !selected && 'hover:scale-[1.05] hover:bg-white/80 hover:border-[#30D158]/40 active:scale-[0.97]',
         !onClick && 'cursor-default',
         className
