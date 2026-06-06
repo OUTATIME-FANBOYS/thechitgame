@@ -21,7 +21,14 @@ export default function HostPage() {
 
   if (!game) return (
     <main className="min-h-dvh flex items-center justify-center px-4">
-      <p className="text-gray-500 dark:text-gray-400">No active game. <Link href="/" className="text-emerald-700 dark:text-emerald-400 underline">Create one</Link></p>
+      <div className="w-full max-w-sm">
+        <Card className="text-center space-y-4">
+          <p className="text-gray-600 dark:text-gray-400 text-sm">No active game running.</p>
+          <Link href="/">
+            <Button className="w-full">Create One</Button>
+          </Link>
+        </Card>
+      </div>
     </main>
   );
 
@@ -36,7 +43,7 @@ export default function HostPage() {
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">Host Screen</h1>
-          <Button variant="ghost" onClick={resetGame}>End Game</Button>
+          <Button variant="red" onClick={resetGame}>End Game</Button>
         </div>
         {game.phase === 'lobby' && <Lobby />}
         {game.phase === 'playing' && (
