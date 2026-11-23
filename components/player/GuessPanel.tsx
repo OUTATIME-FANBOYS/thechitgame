@@ -25,6 +25,10 @@ export function GuessPanel({ playerId }: { playerId: string }) {
 
   return (
     <div className="space-y-4 max-w-sm mx-auto">
+      <Card>
+        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Prompt</p>
+        <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{game.prompt}</p>
+      </Card>
       <Card className="text-center">
         <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Current Chit</p>
         <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{currentChit?.answer ?? '—'}</p>

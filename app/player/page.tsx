@@ -26,6 +26,13 @@ function PlayerContent() {
     setPlayerId(id);
   };
 
+  // roomCode is set (restored from localStorage or just joined) but game hasn't loaded yet
+  if (!game && roomCode) return (
+    <main className="min-h-dvh flex items-center justify-center p-4">
+      <p className="text-sm text-gray-400 dark:text-gray-500">Reconnecting…</p>
+    </main>
+  );
+
   if (!game) return (
     <main className="min-h-dvh flex items-center justify-center p-4">
       <div className="w-full max-w-md">

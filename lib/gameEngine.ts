@@ -68,7 +68,9 @@ export function startGame(state: GameState): GameState {
   const turnOrder: string[] = [];
   let updatedPlayers = { ...state.players };
 
-  const shuffled = Object.values(state.players).sort(() => Math.random() - 0.5);
+  const shuffled = Object.values(state.players)
+    .filter((p) => p.answer !== '')
+    .sort(() => Math.random() - 0.5);
   shuffled.forEach((player) => {
     const teamId = nanoid(6);
     teams[teamId] = { id: teamId, leaderId: player.id, memberIds: [player.id] };
