@@ -48,6 +48,10 @@ export default function HostPage() {
         {game.phase === 'lobby' && <Lobby />}
         {game.phase === 'playing' && (
           <>
+            <Card>
+              <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Prompt</p>
+              <p className="text-base font-medium text-gray-800 dark:text-gray-200">{game.prompt}</p>
+            </Card>
             <ChitDisplay />
             <TeamBoard />
             <Card>

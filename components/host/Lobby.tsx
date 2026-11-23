@@ -31,7 +31,8 @@ export function Lobby() {
   if (!game) return null;
 
   const players = Object.values(game.players);
-  const allAnswered = players.length > 1 && players.every((p) => p.answer !== '');
+  const answeredCount = players.filter((p) => p.answer !== '').length;
+  const canStart = answeredCount >= 2;
   const waitingPlayers = players.filter((p) => !p.answer);
 
   return (
@@ -96,8 +97,8 @@ export function Lobby() {
         </div>
       </Card>
 
-      <Button onClick={startTheGame} disabled={!allAnswered} className="w-full py-4 text-base">
-        {allAnswered ? 'Start Game' : 'Waiting for all players to answer…'}
+      <Button onClick={startTheGame} disabled={!canStart} className="w-full py-4 text-base">
+        {canStart ? `Start Game (${answeredCount} ready)` : 'Waiting for at least 2 players to answer…'}
       </Button>
       {process.env.NODE_ENV === 'development' && (
         <Button variant="ghost" onClick={seedDevPlayers} className="w-full text-xs text-gray-400">

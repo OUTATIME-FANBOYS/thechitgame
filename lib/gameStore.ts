@@ -1,16 +1,17 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { GameState } from './types';
+import { nanoid } from 'nanoid';
 import { createInitialState, addPlayer, submitAnswer, startGame, makeGuess, passTurn } from './gameEngine';
-import { getSupabase } from './supabase';
+import { getConvex } from './convex';
+import { api } from '@/convex/_generated/api';
 
 async function fetchState(roomCode: string): Promise<GameState | null> {
-  const { data } = await getSupabase().from('games').select('state').eq('room_code', roomCode).single();
-  return data?.state ?? null;
+  return (await getConvex().query(api.games.getByRoom, { roomCode })) as GameState | null;
 }
 
 async function writeState(roomCode: string, state: GameState): Promise<void> {
-  await getSupabase().from('games').upsert({ room_code: roomCode, state });
+  await getConvex().mutation(api.games.upsert, { roomCode, state });
 }
 
 interface GameStore {
@@ -52,11 +53,17 @@ export const useGameStore = create<GameStore>()(
       },
 
       joinGame: async (name) => {
-        const { game, roomCode } = get();
-        if (!game || !roomCode) return '';
-        const { state: newState, playerId } = addPlayer(game, name);
-        await writeState(roomCode, newState);
-        set({ game: newState });
+        const { roomCode } = get();
+        if (!roomCode) return '';
+        const playerId = nanoid(6);
+        const player = { id: playerId, name, answer: '', teamId: null };
+        const data = await getConvex().mutation(api.games.addPlayer, {
+          roomCode,
+          playerId,
+          player,
+        });
+        if (!data) return '';
+        set({ game: data as GameState });
         return playerId;
       },
 
@@ -94,7 +101,7 @@ export const useGameStore = create<GameStore>()(
 
       resetGame: async () => {
         const { roomCode } = get();
-        if (roomCode) await getSupabase().from('games').delete().eq('room_code', roomCode);
+        if (roomCode) await getConvex().mutation(api.games.remove, { roomCode });
         set({ game: null, roomCode: null });
       },
 
